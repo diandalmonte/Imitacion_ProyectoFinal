@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> Contactos </title>
+        <meta charset="UTF-8">
+    </head>
+    <body>
+        <header>
+            <h1>Gestion de contactos</h1>
+            <nav>
+                <a href="index.html" title="Gestor de citas">Citas</a>
+            </nav>
+        </header>
+        <body>
+            <form>
+                <fieldset>
+                    <legend>Añade un contacto</legend>
+                    <label> Nombre
+                        <input type="text" placeholder ="Juan" required>
+
+                    </label>
+                    <label>Apellidos
+                        <input type="text" placeholder="Perez" required>
+                    </label>
+                    <label>Empresa
+                        <input type="text" placeholder="Empresa"> <!--Required?-->
+                    </label>
+                    <label>Telefono
+                        <input type="tel" placeholder="809-000-0000">
+                    </label>
+                    <label>Correo
+                        <input type="email" placeholder="jperez@gmail.com">
+                    </label>
+                </fieldset>
+                <!-- Agregar maxlength a los inputs acorde a los varchar de la base de datos-->
+            </form>
+            <table>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Apellidos</th>
+                    <th>Empresa</th>
+                    <th>Telefono</th>
+                    <th>Correo</th>
+                </tr>
+            </table>
+        </body>
+
+    </body>
+</html>
