@@ -1,6 +1,7 @@
-package Modelo;
+package com.jamd.Modelo;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.time.format.DateTimeFormatter;
 
 public class Cita {
     private int id;
@@ -76,8 +77,10 @@ public class Cita {
 
     @Override
     public String toString(){
-        return String.format("ID: %d Encabezado: %s Fecha: %t Contactos relacionados: %d Descripcion: %s", 
-        getId(), getEncabezado(), getFecha(), getContactos().size(), getDescripcion());
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm");
+
+        return String.format("ID: %d Encabezado: %s Fecha: %s Contactos relacionados: %d Descripcion: %s", 
+        getId(), getEncabezado(), getFecha().format(formatter), getContactos().size(), getDescripcion());
     }
 
     

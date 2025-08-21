@@ -1,4 +1,5 @@
-package Modelo;
+package com.jamd.Modelo;
+
 public class Contacto {
     private int id;
     private String nombre, apellido, empresa, telefono, correo;
@@ -91,8 +92,8 @@ public class Contacto {
 
     @Override
     public String toString(){
-        return String.format("Nombre: %s, Apellido: %s, Empresa: %s, Telefono: %s, Correo: %s",
-         getNombre(), getApellido(), getEmpresa(), getTelefono(), getCorreo());
+        return String.format("ID: %dNombre: %s, Apellido: %s, Empresa: %s, Telefono: %s, Correo: %s",
+         getId(), getNombre(), getApellido(), getEmpresa(), getTelefono(), getCorreo());
     }
 
    

@@ -1,15 +1,15 @@
-package DAO;
+package com.jamd.DAO;
 
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import DAO.enums.CamposCita;
-import Modelo.Cita;
-import Modelo.Contacto;
+import com.jamd.DAO.enums.CamposCita;
+import com.jamd.Modelo.Cita;
+import com.jamd.Modelo.Contacto;
 
-public class CitaManager extends CrudManager<Cita, DAO.enums.CamposCita> {
+public class CitaManager extends CrudManager<Cita, com.jamd.DAO.enums.CamposCita> {
 
     public CitaManager(ManagerDB db){
         super(db);
@@ -20,13 +20,22 @@ public class CitaManager extends CrudManager<Cita, DAO.enums.CamposCita> {
         String query = "INSERT INTO Citas(encabezado, fecha_cita, descripcion) " +
                         "VALUES (?, ?, ?)";
         try(Connection connection = db.conectar();//!!!!!Consider what to do here instead of hardcoding that  eliminar has admin
-            PreparedStatement pStatement = connection.prepareStatement(query)){
+            PreparedStatement pStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)){
 
             pStatement.setString(1, cita.getEncabezado());
             pStatement.setTimestamp(2, Timestamp.valueOf(cita.getFecha()));
             pStatement.setString(3, cita.getDescripcion());
 
             pStatement.executeUpdate();
+
+            try (ResultSet rSet = pStatement.getGeneratedKeys()){
+                if (rSet.next()){
+                    int id_cita = rSet.getInt(1);
+                    cita.setId(id_cita);
+                } else {
+                    throw new SQLException("No se generó id_cita");
+                }
+            }
 
         } catch (Exception e){
             e.printStackTrace();
@@ -75,7 +84,7 @@ public class CitaManager extends CrudManager<Cita, DAO.enums.CamposCita> {
 
     @Override
     public void actualizar(int id, CamposCita campo, Object valor){
-        String query = "UPDATE Contactos SET " + campo.getValor() + " = ? WHERE id_contacto = ?";
+        String query = "UPDATE Citas SET " + campo.getValor() + " = ? WHERE id_cita = ?";
         try(Connection connection = db.conectar();
             PreparedStatement pStatement = connection.prepareStatement(query)){
 

@@ -1,4 +1,4 @@
-package DAO;
+package com.jamd.DAO;
 
 import java.sql.*;
 

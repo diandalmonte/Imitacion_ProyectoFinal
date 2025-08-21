@@ -1,8 +1,8 @@
-package DAO;
+package com.jamd.DAO;
 import java.util.List;
 
-import DAO.enums.IdEnum;
-import DAO.enums.TablasBD;
+import com.jamd.DAO.enums.IdEnum;
+import com.jamd.DAO.enums.TablasBD;
 
 import java.sql.*;
 

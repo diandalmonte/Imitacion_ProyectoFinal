@@ -1,12 +1,12 @@
-package DAO;
+package com.jamd.DAO;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import DAO.enums.CamposContacto;
-import Modelo.Contacto;
+import com.jamd.DAO.enums.CamposContacto;
+import com.jamd.Modelo.Contacto;
 
 public class ContactoManager extends CrudManager<Contacto, CamposContacto>{
     

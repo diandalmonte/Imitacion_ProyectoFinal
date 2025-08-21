@@ -1,4 +1,4 @@
-package DAO.enums;
+package com.jamd.DAO.enums;
 
 public enum TablasBD{
     CITA("Citas"),
