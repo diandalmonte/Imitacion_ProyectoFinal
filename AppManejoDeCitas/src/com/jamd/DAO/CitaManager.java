@@ -9,10 +9,11 @@ import com.jamd.DAO.enums.CamposCita;
 import com.jamd.Modelo.Cita;
 import com.jamd.Modelo.Contacto;
 
-public class CitaManager extends CrudManager<Cita, com.jamd.DAO.enums.CamposCita> {
+public class CitaManager implements CrudManager<Cita, com.jamd.DAO.enums.CamposCita> {
+    ManagerDB db;
 
     public CitaManager(ManagerDB db){
-        super(db);
+        this.db = db;
     }
     
     @Override
@@ -154,6 +155,22 @@ public class CitaManager extends CrudManager<Cita, com.jamd.DAO.enums.CamposCita
         }
 
         return resultados;
+    }
+
+    public void eliminar(int id){
+        String query = "DELETE FROM Citas WHERE id_cita = ?";
+        try(Connection connection = db.conectar(); //Consider what to do here instead of hardcoding that  eliminar has admin
+
+            PreparedStatement pStatement = connection.prepareStatement(query)){
+            pStatement.setInt(1, id);
+
+            pStatement.executeUpdate();
+
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        
+
     }
     
 }

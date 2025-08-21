@@ -8,10 +8,11 @@ import java.util.NoSuchElementException;
 import com.jamd.DAO.enums.CamposContacto;
 import com.jamd.Modelo.Contacto;
 
-public class ContactoManager extends CrudManager<Contacto, CamposContacto>{
+public class ContactoManager implements CrudManager<Contacto, CamposContacto>{
+    ManagerDB db;
     
     public ContactoManager(ManagerDB db){
-        super(db);
+        this.db = db;
     }
     
     @Override
@@ -88,6 +89,57 @@ public class ContactoManager extends CrudManager<Contacto, CamposContacto>{
             return resultados;
         }
     } 
+
+
+    public void eliminar(int id){
+        if (hasForeignKey(id)){
+            String queryDeleteFK = "DELETE FROM Citas_Contactos WHERE id_contacto = ?";
+
+            try(Connection connection = db.conectar();
+            PreparedStatement pStatement = connection.prepareStatement(queryDeleteFK)){
+                pStatement.setInt(1, id);
+                pStatement.executeUpdate();
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        String query = "DELETE FROM Contacto WHERE id_contacto = ?";
+        try(Connection connection = db.conectar(); //Consider what to do here instead of hardcoding that  eliminar has admin
+            PreparedStatement pStatement = connection.prepareStatement(query)){
+
+            pStatement.setInt(1, id);
+            pStatement.executeUpdate();
+
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+        
+
+    }
+
+
+
+    public boolean hasForeignKey(int id_contacto){
+        String query = "SELECT 1 FROM Citas_Contactos WHERE id_contacto = ?";
+
+        try(Connection connection = db.conectar();
+            PreparedStatement pStatement = connection.prepareStatement(query)){
+
+                pStatement.setInt(1, id_contacto);
+                try(ResultSet rSet = pStatement.executeQuery()){
+                    return (rSet.next());
+                } 
+
+        } catch (SQLException e){
+            e.printStackTrace();
+            throw new RuntimeException(String.format("Error al buscar restricciones FK de contacto con ID: %d", id_contacto), e);
+            
+        }
+    }
+
+    
 
     public int findId(String correo) throws NoSuchElementException, SQLException{
         String query = "SELECT id_contacto FROM Contactos " +
