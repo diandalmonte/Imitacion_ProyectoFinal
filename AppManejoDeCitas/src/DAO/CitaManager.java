@@ -49,8 +49,8 @@ public class CitaManager extends CrudManager<Cita, DAO.enums.CamposCita> {
 
             try (ResultSet rSet = pStatement.getGeneratedKeys()){
                 if (rSet.next()){
-                    int idCita = rSet.getInt(1);
-                    cita.setId(idCita);
+                    int id_cita = rSet.getInt(1);
+                    cita.setId(id_cita);
                 } else {
                     throw new SQLException("No se generó id_cita");
                 }

@@ -81,8 +81,18 @@ public class Contacto {
         } //Issues: This doesnt do anything for when its not valid, also doesnt specify which isnt correct
     }
 
-    public int getId() {
+    public void setId(int id){
+        this.id = id;
+    }
+
+    public int getId(){
         return id;
+    }
+
+    @Override
+    public String toString(){
+        return String.format("Nombre: %s, Apellido: %s, Empresa: %s, Telefono: %s, Correo: %s",
+         getNombre(), getApellido(), getEmpresa(), getTelefono(), getCorreo());
     }
 
    
