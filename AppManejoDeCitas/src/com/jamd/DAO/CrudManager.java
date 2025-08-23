@@ -2,7 +2,7 @@ package com.jamd.DAO;
 import java.util.List;
 
 
-public interface CrudManager<T, E extends Enum<E>> {
+public interface CrudManager<T, E extends Enum<E>> { //Uso de Generics para evitar casting de objetos
 
     public void guardar(T obj);
 

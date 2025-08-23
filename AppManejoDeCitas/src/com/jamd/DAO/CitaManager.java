@@ -20,7 +20,7 @@ public class CitaManager implements CrudManager<Cita, com.jamd.DAO.enums.CamposC
     public void guardar(Cita cita){
         String query = "INSERT INTO Citas(encabezado, fecha_cita, descripcion) " +
                         "VALUES (?, ?, ?)";
-        try(Connection connection = db.conectar();//!!!!!Consider what to do here instead of hardcoding that  eliminar has admin
+        try(Connection connection = db.conectar();
             PreparedStatement pStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)){
 
             pStatement.setString(1, cita.getEncabezado());
@@ -48,7 +48,7 @@ public class CitaManager implements CrudManager<Cita, com.jamd.DAO.enums.CamposC
                         "VALUES (?, ?, ?) ";
         String queryRelacion = "INSERT INTO Citas_Contactos(id_cita, id_contacto) " +
                                 "VALUES (?, ?)";
-        try(Connection connection = db.conectar();//!!!!!Consider what to do here instead of hardcoding that  eliminar has admin
+        try(Connection connection = db.conectar();
             PreparedStatement pStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)){
 
             pStatement.setString(1, cita.getEncabezado());
@@ -101,10 +101,8 @@ public class CitaManager implements CrudManager<Cita, com.jamd.DAO.enums.CamposC
 
     public List<Cita> obtener(){
         String query = "SELECT id_cita, encabezado, fecha_cita, descripcion FROM Citas";
-        //Options to consider, hashMap??
         List<Cita> resultados = new ArrayList<>();
-        try (Connection connection = db.conectar(); //!!!!!Consider what to do here instead of hardcoding that eliminar has admin
-            
+        try (Connection connection = db.conectar();
             PreparedStatement pStatement = connection.prepareStatement(query);
             ResultSet rSet = pStatement.executeQuery()){
 
@@ -129,7 +127,7 @@ public class CitaManager implements CrudManager<Cita, com.jamd.DAO.enums.CamposC
                                     "FROM Citas_Contactos cc " +
                                     "JOIN Contactos c ON cc.id_contacto = c.id_contacto;";
                             
-        try (Connection connection = db.conectar(); //!!!!!Consider what to do here instead of hardcoding that eliminar has admin
+        try (Connection connection = db.conectar(); 
             PreparedStatement pStatement = connection.prepareStatement(queryContactosCita);
             ResultSet rSet = pStatement.executeQuery()){
 
@@ -159,7 +157,7 @@ public class CitaManager implements CrudManager<Cita, com.jamd.DAO.enums.CamposC
 
     public void eliminar(int id){
         String query = "DELETE FROM Citas WHERE id_cita = ?";
-        try(Connection connection = db.conectar(); //Consider what to do here instead of hardcoding that  eliminar has admin
+        try(Connection connection = db.conectar();
 
             PreparedStatement pStatement = connection.prepareStatement(query)){
             pStatement.setInt(1, id);

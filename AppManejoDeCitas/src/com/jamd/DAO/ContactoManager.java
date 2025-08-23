@@ -15,11 +15,11 @@ public class ContactoManager implements CrudManager<Contacto, CamposContacto>{
         this.db = db;
     }
     
-    @Override
+    
     public void guardar(Contacto contacto){
         String query = "INSERT INTO Contactos(nombre, apellido, empresa, telefono, correo) " +
                         "VALUES (?, ?, ?, ?, ?)";
-        try (Connection connection = db.conectar();//!!!!!Consider what to do here instead of hardcoding that  eliminar has admin
+        try (Connection connection = db.conectar();
             PreparedStatement pStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)){
 
             pStatement.setString(1, contacto.getNombre());
@@ -35,7 +35,7 @@ public class ContactoManager implements CrudManager<Contacto, CamposContacto>{
                 int id_contacto = rSet.getInt(1);
                 contacto.setId(id_contacto);
                 } else {
-                    throw new SQLException("No se generó id_cita");
+                    throw new SQLException("No se generó id_contacto");
                 }
             }
 
@@ -45,7 +45,7 @@ public class ContactoManager implements CrudManager<Contacto, CamposContacto>{
         
     }
 
-    @Override
+    
     public void actualizar(int id, CamposContacto campo, Object valor){
         String query = "UPDATE Contactos SET " + campo.getValor() + " = ? WHERE id_contacto = ?";
         try(Connection connection = db.conectar();
@@ -93,7 +93,7 @@ public class ContactoManager implements CrudManager<Contacto, CamposContacto>{
 
     public void eliminar(int id){
         if (hasForeignKey(id)){
-            String queryDeleteFK = "DELETE FROM Citas_Contactos WHERE id_contacto = ?";
+            String queryDeleteFK = "DELETE FROM Citas_Contactos WHERE id_contacto = ?"; 
 
             try(Connection connection = db.conectar();
             PreparedStatement pStatement = connection.prepareStatement(queryDeleteFK)){
@@ -105,8 +105,8 @@ public class ContactoManager implements CrudManager<Contacto, CamposContacto>{
             }
         }
 
-        String query = "DELETE FROM Contacto WHERE id_contacto = ?";
-        try(Connection connection = db.conectar(); //Consider what to do here instead of hardcoding that  eliminar has admin
+        String query = "DELETE FROM Contactos WHERE id_contacto = ?";
+        try(Connection connection = db.conectar();
             PreparedStatement pStatement = connection.prepareStatement(query)){
 
             pStatement.setInt(1, id);
@@ -124,7 +124,7 @@ public class ContactoManager implements CrudManager<Contacto, CamposContacto>{
     public boolean hasForeignKey(int id_contacto){
         String query = "SELECT 1 FROM Citas_Contactos WHERE id_contacto = ?";
 
-        try(Connection connection = db.conectar();
+        try(Connection connection = db.conectar(); 
             PreparedStatement pStatement = connection.prepareStatement(query)){
 
                 pStatement.setInt(1, id_contacto);
@@ -141,13 +141,13 @@ public class ContactoManager implements CrudManager<Contacto, CamposContacto>{
 
     
 
-    public int findId(String correo) throws NoSuchElementException, SQLException{
+    public int findId(String correo) throws NoSuchElementException, SQLException{ //contacto.setId(contactoManager.findId(correo))
         String query = "SELECT id_contacto FROM Contactos " +
                         "WHERE correo = ?";
         try (Connection connection = db.conectar();
             PreparedStatement pStatement = connection.prepareStatement(query)){
 
-            pStatement.setString(1, correo);
+            pStatement.setString(1, correo); 
             try (ResultSet rSet =  pStatement.executeQuery()){
                 if (rSet.next()){
                     return rSet.getInt("id_contacto");
